@@ -18,6 +18,7 @@ package io.cloudbeaver.model.session;
 
 import io.cloudbeaver.CloudbeaverMockTest;
 import io.cloudbeaver.DBWebException;
+import io.cloudbeaver.WebSessionProjectImpl;
 import io.cloudbeaver.model.app.ServletAuthApplication;
 import org.jkiss.dbeaver.model.websocket.event.WSEventController;
 import org.jkiss.utils.function.ThrowableConsumer;
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -78,6 +80,21 @@ public class WebSessionTest extends CloudbeaverMockTest {
             DBWebException.class, () -> session.asyncTaskStatus("nonexistent-task", false),
             "DBWebException must be thrown for unknown async task"
         );
+    }
+
+    @Test
+    public void refreshUserDataWithoutProjectRefreshPreservesProjects() {
+        WebSessionProjectImpl project = Mockito.mock(WebSessionProjectImpl.class);
+        Mockito.when(project.getId()).thenReturn("test-project");
+        Mockito.when(project.getName()).thenReturn("test-project");
+        Mockito.when(project.getDisplayName()).thenReturn("Test project");
+        session.getWorkspace().addProject(project);
+
+        session.refreshUserData(false);
+
+        Assertions.assertEquals(List.of(project), session.getWorkspace().getProjects());
+        Assertions.assertNotNull(session.getNavigatorModel());
+        Mockito.verify(project, Mockito.never()).dispose();
     }
 
     private WebHttpRequestInfo getFakeRequestInfo() {

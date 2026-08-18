@@ -262,10 +262,15 @@ public class WebSession extends BaseWebSession
 
     @Override
     public void refreshUserData() {
-        super.refreshUserData();
+        refreshUserData(true);
+    }
+
+    @Override
+    public void refreshUserData(boolean refreshProjects) {
+        super.refreshUserData(refreshProjects);
         refreshSessionAuth();
 
-        initNavigatorModel();
+        initNavigatorModel(refreshProjects);
     }
 
     // Note: for admin use only
@@ -301,7 +306,7 @@ public class WebSession extends BaseWebSession
         this.clientOrigin = originFromRequest;
     }
 
-    private void initNavigatorModel() {
+    private void initNavigatorModel(boolean refreshProjects) {
         navigatorModelLock.writeLock().lock();
         try {
             // Cleanup current data
@@ -309,9 +314,10 @@ public class WebSession extends BaseWebSession
                 this.navigatorModel.dispose();
                 this.navigatorModel = null;
             }
-            this.globalProject = null;
-
-            loadProjects();
+            if (refreshProjects || getWorkspace().getProjects().isEmpty()) {
+                this.globalProject = null;
+                loadProjects();
+            }
 
             this.navigatorModel = new DBNModel(DBWorkbench.getPlatform(), getWorkspace());
             this.navigatorModel.setModelAuthContext(getWorkspace().getAuthContext());

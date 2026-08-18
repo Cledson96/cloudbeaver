@@ -138,6 +138,15 @@ public abstract class BaseWebSession extends AbstractSessionPersistent {
     }
 
     public void refreshUserData() {
+        refreshUserData(true);
+    }
+
+    /**
+     * Refreshes user data and optionally reloads session projects.
+     *
+     * @param refreshProjects whether session projects should be reloaded
+     */
+    public void refreshUserData(boolean refreshProjects) {
         try {
             userContext.refreshPermissions();
             if (userContext.isAuthorizedInSecurityManager()) {
