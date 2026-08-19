@@ -261,11 +261,6 @@ public class WebSession extends BaseWebSession
     }
 
     @Override
-    public void refreshUserData() {
-        refreshUserData(true);
-    }
-
-    @Override
     public void refreshUserData(boolean refreshProjects) {
         super.refreshUserData(refreshProjects);
         refreshSessionAuth();
