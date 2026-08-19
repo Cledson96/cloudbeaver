@@ -16,6 +16,7 @@
     </properties>
 
     <modules>
+        <module>bigquery</module>
         <module>clickhouse_com</module>
         <module>databend</module>
         <module>db2</module>

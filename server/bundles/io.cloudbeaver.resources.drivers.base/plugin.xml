@@ -4,6 +4,7 @@
     <extension point="org.jkiss.dbeaver.resources">
         <resource name="drivers/db2"/>
         <resource name="drivers/db2-jt400"/>
+        <resource name="drivers/google-bigquery"/>
         <resource name="drivers/duckdb"/>
         <resource name="drivers/mysql/mysql8"/>
         <resource name="drivers/mariadb"/>
@@ -26,6 +27,7 @@
     <!-- Bundles  -->
     <extension point="org.jkiss.dbeaver.product.bundles">
         <bundle id="drivers.db2" label="DB2 drivers"/>
+        <bundle id="drivers.google-bigquery" label="Google BigQuery drivers"/>
         <bundle id="drivers.duckdb" label="DuckDB drivers"/>
         <bundle id="drivers.jt400" label="DB2 iSeries drivers"/>
         <bundle id="drivers.mysql" label="MySQL drivers"/>
@@ -50,6 +52,7 @@
     <extension point="io.cloudbeaver.driver">
         <driver id="db2:db2"/>
         <driver id="db2_i:db2_iseries"/>
+        <driver id="bigquery:google_bigquery_jdbc"/>
         <driver id="mysql:mysql8"/>
         <driver id="mysql:mariaDB"/>
         <driver id="oracle:oracle_thin"/>
